@@ -26,11 +26,16 @@ public class PlayerController : MonoBehaviour
         Vector3 directionInput = new Vector3(x, 0, z);
         directionInput.Normalize();
 
+        Vector3 rot = new Vector3(0,Input.GetAxis("Mouse X"), 0);// Rotation code for now. 
+        rot.x = 0;
+        
+        transform.Rotate(rot * Time.deltaTime * RotationSpeed);//
 
-        transform.position += directionInput * Time.deltaTime * MovementSpeed;
+
+        transform.position += directionInput * Time.deltaTime * MovementSpeed; // Need to account for current direction.
         currentDirection = directionInput;
 
-
+      
 
 
     }
