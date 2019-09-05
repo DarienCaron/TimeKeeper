@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
 
         m_Velocity = Vector3.zero;
 
+        m_PlayerEyes = GetComponentInChildren<PlayerLook>();
 
 
     }
@@ -68,20 +69,25 @@ public class PlayerController : MonoBehaviour
         localMoveDir.Normalize();
 
         UpdateOnGround(localMoveDir);
+        RotatePlayer();
 
 
-      Vector3 rot =   new Vector3(
-            Input.GetAxis("Mouse Y"),
-            Input.GetAxis("Mouse X"),
-            0.0f
-            );
 
-        rot.x = 0;
 
-        transform.Rotate(rot * Time.deltaTime * YawRotation);
+
+
+
+
 
 
     }
+
+    private void RotatePlayer()
+    {
+        m_RigidBody.MoveRotation(m_RigidBody.rotation * Quaternion.Euler(m_PlayerEyes.BodyRotation));
+    }
+
+ 
 
     void UpdateGroundInfo()
     {
@@ -234,6 +240,7 @@ public class PlayerController : MonoBehaviour
     Vector3 m_Velocity;
     float m_CenterHeight;
     int m_GroundCheckMask;
+    PlayerLook m_PlayerEyes;
 
 
 
