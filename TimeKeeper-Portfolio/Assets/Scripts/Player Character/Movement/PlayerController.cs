@@ -11,8 +11,13 @@ public class PlayerController : MonoBehaviour
     [Header("Ground Variables")]
 
     public float MovementAccelerationSpeed = 8.0f;
-    public float MaxSpeed = 10.0f;
+    public float MaxWalkSpeed = 10.0f;
     public float DecelerationSpeed = 10.0f;
+
+
+    public float MaxRunSpeed = 25.0f;
+    public float RunSpeedModifier = 1.5f;
+
 
 
     [Space(25)]
@@ -252,12 +257,27 @@ public class PlayerController : MonoBehaviour
                 localVelocity = MathUtilities.LerpTo(DecelerationSpeed, localVelocity, Vector3.zero, Time.fixedDeltaTime);
             }
 
-            moveAccel *= MovementAccelerationSpeed;
-            localVelocity += moveAccel * Time.fixedDeltaTime;
-            localVelocity = Vector3.ClampMagnitude(localVelocity, MaxSpeed);
+         
+           
+           
+          
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                moveAccel *= MovementAccelerationSpeed * RunSpeedModifier;
+                localVelocity = Vector3.ClampMagnitude(localVelocity, MaxRunSpeed);
+                Debug.Log("Running");
+            }
+            else
+            {
+                moveAccel *= MovementAccelerationSpeed;
+                localVelocity = Vector3.ClampMagnitude(localVelocity, MaxWalkSpeed);
+                Debug.Log("Walking");
+            }
 
+            localVelocity += moveAccel * Time.fixedDeltaTime;
             m_Velocity = localVelocity + GroundVelocity;
 
+            
         }
         else
         {

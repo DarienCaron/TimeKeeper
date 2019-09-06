@@ -1962,8 +1962,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementAccelerationSpeed: 20
-  MaxSpeed: 10
+  MaxWalkSpeed: 10
   DecelerationSpeed: 10
+  MaxRunSpeed: 25
+  RunSpeedModifier: 1.5
+  InAirMovementAcceleration: 30
+  InAirMaxHorizontalSpeed: 20
+  InAirMaxVeritcalSpeed: 50
+  GravityAccel: -10
   YawRotation: 55
   GroundCheckStartOffsetY: 0.5
   CheckForGroundRadius: 0.5
