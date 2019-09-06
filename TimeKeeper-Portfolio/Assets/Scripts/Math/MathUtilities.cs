@@ -93,4 +93,29 @@ public class MathUtilities
 
         return diff + start;
     }
+
+    public static Vector3 SlerpTo(float easeSpeed, Vector3 start, Vector3 end, float dt)
+    {
+        float percent = Mathf.Clamp(dt * easeSpeed, 0.0f, 1.0f);
+
+        return Vector3.Slerp(start, end, percent);
+    }
+
+    //Clamps a vector along the x-z plane
+    public static Vector3 HorizontalClamp(Vector3 v, float maxLength)
+    {
+        float horizLengthSqrd = v.x * v.x + v.z * v.z;
+
+        if (horizLengthSqrd <= maxLength * maxLength)
+        {
+            return v;
+        }
+
+        float horizLength = Mathf.Sqrt(horizLengthSqrd);
+
+        v.x *= maxLength / horizLength;
+        v.z *= maxLength / horizLength;
+
+        return v;
+    }
 }

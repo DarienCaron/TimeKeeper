@@ -49,6 +49,7 @@ public class PlayerLook : MonoBehaviour
         bodyRotation = bodyRotation * (RotationSpeed / RotationSmoothing);
 
         BodyRotation = bodyRotation;
+        
     }
 
     void UpdateCameraRotation()

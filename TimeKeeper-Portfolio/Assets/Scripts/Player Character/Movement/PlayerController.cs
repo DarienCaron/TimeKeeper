@@ -14,6 +14,17 @@ public class PlayerController : MonoBehaviour
     public float MaxSpeed = 10.0f;
     public float DecelerationSpeed = 10.0f;
 
+
+    [Space(25)]
+    [Header("In Air Values")]
+
+    public float InAirMovementAcceleration = 30.0f;
+    public float InAirMaxHorizontalSpeed = 20.0f;
+    public float InAirMaxVeritcalSpeed = 50.0f;
+
+    public float GravityAccel = -10.0f;
+
+
     [Space(45)]
 
     [Header("Rotation Variables")]
@@ -30,6 +41,9 @@ public class PlayerController : MonoBehaviour
     public float GroundResolutionOverlap = 0.05f;
 
     public float MinAllowedSurfaceAngle = 15.0f;
+
+
+
 
     public GameObject FootLocation;
 
@@ -68,7 +82,20 @@ public class PlayerController : MonoBehaviour
         Vector3 localMoveDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         localMoveDir.Normalize();
 
-        UpdateOnGround(localMoveDir);
+
+        switch(m_MovementState)
+        {
+            case MovementState.OnGround:
+                UpdateOnGround(localMoveDir);
+                break;
+            case MovementState.InAir:
+                UpdateInAir(localMoveDir);
+                break;
+            case MovementState.Disable:
+                break;
+        }
+
+        
         RotatePlayer();
 
 
@@ -84,6 +111,26 @@ public class PlayerController : MonoBehaviour
 
     private void RotatePlayer()
     {
+        #region Test_Rotation_UsingCameraDir
+        // EXPERIMENTAL, WOULD NEED TO ADJUST CAMERA ROTATION LOGIC.
+        //Vector3 goalRotateDir = m_Velocity - GroundVelocity;
+        //goalRotateDir.y = 0.0f;
+
+        //if(goalRotateDir.sqrMagnitude < m_PlayerEyes.RotationSpeed * m_PlayerEyes.RotationSpeed)
+        //{
+        //    Vector3 controlRotation = m_PlayerEyes.BodyRotation;
+
+        //    controlRotation.x = 0.0f;
+
+        //    goalRotateDir = Quaternion.Euler(controlRotation) * Vector3.forward;
+        //    goalRotateDir.y = 0.0f;
+        //}
+
+        //Vector3 newRotateDir = MathUtilities.SlerpTo(m_PlayerEyes.RotationSmoothing, transform.forward, goalRotateDir, Time.fixedDeltaTime);
+
+        //transform.rotation = Quaternion.LookRotation(newRotateDir);
+        #endregion
+
         m_RigidBody.MoveRotation(m_RigidBody.rotation * Quaternion.Euler(m_PlayerEyes.BodyRotation));
     }
 
@@ -136,7 +183,10 @@ public class PlayerController : MonoBehaviour
 
         if(!validGroundFound)
         {
-            // change this for when the player is in the air.
+            if(m_MovementState != MovementState.Disable)
+            {
+                SetMovementState(MovementState.InAir);
+            }
             return;
         }
 
@@ -146,7 +196,34 @@ public class PlayerController : MonoBehaviour
         m_CenterHeight += stepUpAmount - GroundResolutionOverlap;
 
         GroundNormal = groundHitInfo.normal;
+
+        if(m_MovementState != MovementState.Disable)
+        {
+            SetMovementState(MovementState.OnGround);
+        }
         
+    }
+
+    void UpdateInAir(Vector3 localMoveDir)
+    {
+        if(localMoveDir.sqrMagnitude > MathUtilities.CompareEpsilon)
+        {
+            Vector3 moveAccel = CalculateMoveAccel(localMoveDir);
+
+            moveAccel *= InAirMovementAcceleration;
+
+            m_Velocity += moveAccel * Time.fixedDeltaTime;
+
+
+            m_Velocity = MathUtilities.HorizontalClamp(m_Velocity, InAirMaxHorizontalSpeed);
+
+            m_Velocity.y = Mathf.Clamp(m_Velocity.y, -InAirMaxVeritcalSpeed, InAirMaxVeritcalSpeed);
+        }
+
+        m_Velocity.y += GravityAccel * Time.fixedDeltaTime;
+
+        ApplyVelocity(m_Velocity);
+
     }
 
     void UpdateOnGround(Vector3 localMoveDir)
@@ -221,6 +298,23 @@ public class PlayerController : MonoBehaviour
         return moveAccel;
     }
 
+    void SetMovementState(MovementState state)
+    {
+        switch(state)
+        {
+            case MovementState.OnGround:
+                break;
+            case MovementState.InAir:
+              
+                break;
+            case MovementState.Disable:
+                m_Velocity = Vector3.zero;
+                ApplyVelocity(m_Velocity);
+                break;
+        }
+        m_MovementState = state;
+    }
+
 
 
 
@@ -235,7 +329,18 @@ public class PlayerController : MonoBehaviour
 
 
 
+    enum MovementState
+    {
+        OnGround,
+        InAir,
+        Disable
+    }
 
+
+
+
+
+    MovementState m_MovementState;
     Rigidbody m_RigidBody;
     Vector3 m_Velocity;
     float m_CenterHeight;
@@ -246,6 +351,8 @@ public class PlayerController : MonoBehaviour
 
 
     bool m_IsCrouching; // Temp
+
+
 
 
 }
