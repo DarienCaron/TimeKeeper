@@ -9,6 +9,8 @@ public class Gun : MonoBehaviour
     public Transform MuzzleLocation;
     public GameObject BulletPrefab;
     public GameObject Parent;
+
+    public float FireDistance = 55.0f;
     
 
     void Start()
@@ -29,7 +31,16 @@ public class Gun : MonoBehaviour
 
     void Fire()
     {
-        Quaternion rot = Quaternion.LookRotation(Parent.transform.forward);
+        float x = Screen.width / 2;
+        float y = Screen.height / 2;
+
+        Ray b = Camera.main.ScreenPointToRay(new Vector3(x, y, 0));
+
+
+        Quaternion rot = Quaternion.LookRotation(b.direction);
+
+     
+
 
         if (Parent)
         {
