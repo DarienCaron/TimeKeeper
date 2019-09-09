@@ -70,7 +70,7 @@ public class PlayerLook : MonoBehaviour
         CameraRotation = camRotation; // Store our current camera rotation;
 
 
-        transform.Rotate(-CameraRotation); // Rotate the camera only.
+        transform.Rotate(-CameraRotation ); // Rotate the camera only.
 
             
     }

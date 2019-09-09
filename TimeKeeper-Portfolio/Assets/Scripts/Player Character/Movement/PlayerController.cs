@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour
 
         UpdateGroundInfo();
 
-        Vector3 localMoveDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        Vector3 localMoveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         localMoveDir.Normalize();
 
 
@@ -217,6 +217,7 @@ public class PlayerController : MonoBehaviour
 
             moveAccel *= InAirMovementAcceleration;
 
+
             m_Velocity += moveAccel * Time.fixedDeltaTime;
 
 
@@ -289,7 +290,7 @@ public class PlayerController : MonoBehaviour
         Vector3 playerCenter = transform.position;
 
 
-        playerCenter.y = MathUtilities.LerpTo(DecelerationSpeed, playerCenter.y, m_CenterHeight, Time.deltaTime);
+        playerCenter.y = MathUtilities.LerpTo(DecelerationSpeed, playerCenter.y, m_CenterHeight, Time.fixedDeltaTime);
 
         transform.position = playerCenter;
 
