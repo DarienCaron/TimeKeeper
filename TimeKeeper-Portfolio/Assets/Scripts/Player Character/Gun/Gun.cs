@@ -25,21 +25,43 @@ public class Gun : MonoBehaviour
         {
             Fire();
         }
+      
     }
 
 
 
     void Fire()
     {
-        float x = Screen.width / 2;
-        float y = Screen.height / 2;
 
-        Ray b = Camera.main.ScreenPointToRay(new Vector3(x, y, 0));
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 
 
-        Quaternion rot = Quaternion.LookRotation(b.direction);
+        RaycastHit hit;
 
-     
+
+        Vector3 direction = Vector3.zero;
+
+        Quaternion rot = Quaternion.identity;
+
+        if(Physics.Raycast(ray, out hit))
+        {
+            direction = hit.point - MuzzleLocation.position;
+            direction.Normalize();
+        
+        }
+        else
+        {
+            direction = ray.direction;
+        }
+
+        
+
+        rot = Quaternion.LookRotation(direction);
+
+
+
+
+
 
 
         if (Parent)
