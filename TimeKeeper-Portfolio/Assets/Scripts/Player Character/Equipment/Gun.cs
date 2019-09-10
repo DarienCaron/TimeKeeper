@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gun : MonoBehaviour
+public class Gun : Weapon
 {
 
 
@@ -20,14 +20,23 @@ public class Gun : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            Fire();
-        }
+    {     
       
     }
 
+    public override void Equip()
+    {
+        base.Equip();
+    }
+    public override void UnEquip()
+    {
+        base.UnEquip();
+    }
+
+    public override void Use()
+    {
+        Fire();
+    }
 
 
     void Fire()
@@ -57,12 +66,6 @@ public class Gun : MonoBehaviour
         
 
         rot = Quaternion.LookRotation(direction);
-
-
-
-
-
-
 
         if (Parent)
         {

@@ -1890,6 +1890,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 775b9c330977a1b438df3ad1dbd767d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxDamage: 10
   MuzzleLocation: {fileID: 1486733392}
   BulletPrefab: {fileID: 7843405843139581105, guid: def57c67840a2a2429e595b24bced775,
     type: 3}
@@ -2098,6 +2099,7 @@ GameObject:
   - component: {fileID: 1872047492}
   - component: {fileID: 1872047491}
   - component: {fileID: 1872047490}
+  - component: {fileID: 1872047495}
   - component: {fileID: 1872047489}
   - component: {fileID: 1872047494}
   m_Layer: 0
@@ -2227,6 +2229,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &1872047495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872047488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a077d38ff0d7f0141bf586527912b789, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemsToUse:
+  - {fileID: 1242789453}
 --- !u!1 &2005583797
 GameObject:
   m_ObjectHideFlags: 0
