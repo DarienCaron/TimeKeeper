@@ -56,13 +56,14 @@ public class PlayerController : MonoBehaviour
     [Header("Constants")]
 
     public const float GroundHitAdjustment = 0.1f;
+    public const string PlayerMask = "Player";
 
   
 
     void Start()
     {
 
-        m_GroundCheckMask = ~LayerMask.GetMask("Player", "Ignore Raycast");
+        m_GroundCheckMask = ~LayerMask.GetMask(PlayerMask, "Ignore Raycast");
 
         m_RigidBody = GetComponent<Rigidbody>();
 
