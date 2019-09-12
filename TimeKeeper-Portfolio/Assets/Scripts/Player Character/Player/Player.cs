@@ -7,9 +7,13 @@ public class Player : MonoBehaviour
 
     public List<Weapon> ItemsToUse = new List<Weapon>();
 
+    public GameObject PlayerArm;
+
+
     private void Awake()
     {
         m_CurrentItemIndex = 0;
+        m_OriginalHandPos = PlayerArm.transform.localPosition;
     }
     // Start is called before the first frame update
     void Start()
@@ -28,6 +32,36 @@ public class Player : MonoBehaviour
         {
             EquippedItem.Use();
         }
+
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            if(EquippedItem.EquipmentType == EquipmentType.Gun)
+            {
+                Gun g = (Gun)EquippedItem;
+                g.Reload();
+            }
+        }
+
+        if (EquippedItem.EquipmentType == EquipmentType.Gun)
+        {
+            Gun g = (Gun)EquippedItem;
+            if (Input.GetKey(KeyCode.Mouse1))
+            {
+
+                PlayerArm.transform.localPosition = Vector3.Slerp(PlayerArm.transform.localPosition, g.ADSLocation, Time.deltaTime * g.ADSSpeed);
+
+
+            }
+
+            else
+            {
+                if ((PlayerArm.transform.localPosition - m_OriginalHandPos).magnitude > 0.1f)
+                {
+                    PlayerArm.transform.localPosition = Vector3.Slerp(PlayerArm.transform.localPosition, m_OriginalHandPos, Time.deltaTime *  g.ADSSpeed);
+                }
+            }
+        }
+
 
         //if(ItemsToUse.Count > 1)
         //{
@@ -60,7 +94,8 @@ public class Player : MonoBehaviour
     }
 
 
-    public IEquipment EquippedItem { get; private set; }
+    public Equipment EquippedItem { get; private set; }
 
     private int m_CurrentItemIndex;
+    private Vector3 m_OriginalHandPos;
 }

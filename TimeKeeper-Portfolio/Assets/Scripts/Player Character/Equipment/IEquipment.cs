@@ -14,5 +14,6 @@ public interface IEquipment
 public enum EquipmentType
 {
     Weapon,
-    Tool
+    Tool,
+    Gun
 };

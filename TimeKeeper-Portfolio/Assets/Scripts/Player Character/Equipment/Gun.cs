@@ -11,10 +11,21 @@ public class Gun : Weapon
     public GameObject Parent;
 
     public float FireDistance = 55.0f;
-    
+
+    public float FireRate = 1;
+    public int MaxAmmoCount = 15;
+
+
+    public int CurrentAmmoCount { get; private set; }
+
+    public Vector3 ADSLocation = new Vector3(-0.008f, 0.116f, 0.421f);
+    public float ADSSpeed = 15f;
+
 
     void Start()
     {
+        
+        Reload();
         Parent = GetComponentInParent<PlayerController>().gameObject;
     }
 
@@ -22,6 +33,11 @@ public class Gun : Weapon
     void Update()
     {     
       
+    }
+
+    public virtual void Reload()
+    {
+        CurrentAmmoCount = MaxAmmoCount;
     }
 
     public override void Equip()
@@ -35,7 +51,10 @@ public class Gun : Weapon
 
     public override void Use()
     {
-        Fire();
+        if (CurrentAmmoCount > 0)
+        {
+            Fire();
+        }
     }
 
 
@@ -70,8 +89,10 @@ public class Gun : Weapon
         if (Parent)
         {
             GameObject bullet = Instantiate(BulletPrefab, MuzzleLocation.position, rot);
-         
+            CurrentAmmoCount--;
         }
 
     }
+
+    protected bool m_IsReloading;
 }
