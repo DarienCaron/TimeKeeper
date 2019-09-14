@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gun : Weapon
+public class Gun : Weapon, IShootable
 {
 
 
@@ -24,7 +24,7 @@ public class Gun : Weapon
 
     void Start()
     {
-        
+        m_OriginalHipFirePos = transform.localPosition;
         Reload();
         Parent = GetComponentInParent<PlayerController>().gameObject;
     }
@@ -94,5 +94,16 @@ public class Gun : Weapon
 
     }
 
+    public void Aim()
+    {
+        transform.localPosition = Vector3.Slerp(transform.localPosition, ADSLocation, Time.deltaTime * ADSSpeed);
+    }
+
+    public void HipFire()
+    {
+        transform.localPosition = Vector3.Slerp(transform.localPosition, m_OriginalHipFirePos, Time.deltaTime * ADSSpeed);
+    }
+
     protected bool m_IsReloading;
+    private Vector3 m_OriginalHipFirePos;
 }
