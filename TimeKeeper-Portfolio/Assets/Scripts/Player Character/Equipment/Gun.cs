@@ -31,8 +31,10 @@ public class Gun : Weapon, IShootable
 
     // Update is called once per frame
     void Update()
-    {     
-      
+    {
+        Vector3 Direction = CalculateCenterDir();
+
+        transform.rotation = Quaternion.LookRotation(Direction, transform.up);
     }
 
     public virtual void Reload()
@@ -88,7 +90,8 @@ public class Gun : Weapon, IShootable
 
         if (Parent)
         {
-            GameObject bullet = Instantiate(BulletPrefab, MuzzleLocation.position, rot);
+            GameObject bullet = Instantiate(BulletPrefab);
+            bullet.GetComponent<Bullet>().Init(MuzzleLocation.position, direction);
             CurrentAmmoCount--;
         }
 
@@ -102,6 +105,16 @@ public class Gun : Weapon, IShootable
     public void HipFire()
     {
         transform.localPosition = Vector3.Slerp(transform.localPosition, m_OriginalHipFirePos, Time.deltaTime * ADSSpeed);
+    }
+
+    Vector3 CalculateCenterDir()
+    {
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+
+        Vector3 direction = ray.direction;
+        direction.Normalize();
+
+        return direction;
     }
 
     protected bool m_IsReloading;

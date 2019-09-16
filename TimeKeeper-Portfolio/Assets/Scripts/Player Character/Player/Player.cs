@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class Player : MonoBehaviour
     public List<Weapon> ItemsToUse = new List<Weapon>();
 
     public GameObject PlayerArm;
+   
 
 
     private void Awake()
@@ -64,6 +66,19 @@ public class Player : MonoBehaviour
             }
         }
 
+
+        // TEMP CODE
+        if(Input.GetKey(KeyCode.J))
+        {
+            TimeWorld.TimeScale = 0;
+        }
+        else
+        {
+            TimeWorld.TimeScale = 1;
+        }
+
+
+      
 
         //if(ItemsToUse.Count > 1)
         //{
