@@ -70,11 +70,11 @@ public class Player : MonoBehaviour
         // TEMP CODE
         if(Input.GetKey(KeyCode.J))
         {
-            TimeWorld.TimeScale = 0;
+            TimeWorld.Instance.HalfTime();
         }
         else
         {
-            TimeWorld.TimeScale = 1;
+            TimeWorld.Instance.FullTime();
         }
 
 

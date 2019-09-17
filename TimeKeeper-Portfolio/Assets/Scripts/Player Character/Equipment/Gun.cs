@@ -27,14 +27,22 @@ public class Gun : Weapon, IShootable
         m_OriginalHipFirePos = transform.localPosition;
         Reload();
         Parent = GetComponentInParent<PlayerController>().gameObject;
+       
     }
 
     // Update is called once per frame
     void Update()
     {
         Vector3 Direction = CalculateCenterDir();
-
+        
         transform.rotation = Quaternion.LookRotation(Direction, transform.up);
+
+        
+    }
+
+    private void LateUpdate()
+    {
+        
     }
 
     public virtual void Reload()
@@ -62,8 +70,11 @@ public class Gun : Weapon, IShootable
 
     void Fire()
     {
+        m_ShotCounter++;
 
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+
+
+         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 
 
         RaycastHit hit;
@@ -95,6 +106,12 @@ public class Gun : Weapon, IShootable
             CurrentAmmoCount--;
         }
 
+        float random = Random.Range(0.25f, 0.75f);
+        Kick = random;
+
+        transform.localPosition -= Vector3.forward * Kick;
+        transform.localEulerAngles = transform.localEulerAngles + Vector3.right * Kick * 2;
+
     }
 
     public void Aim()
@@ -119,4 +136,10 @@ public class Gun : Weapon, IShootable
 
     protected bool m_IsReloading;
     private Vector3 m_OriginalHipFirePos;
+    private int m_ShotCounter;
+
+    private float m_Timer;
+
+    private float Kick;
+
 }

@@ -80,7 +80,7 @@ public class Bullet : MonoBehaviour, ITimeAffected
 
     public void TimedUpdate()
     {
-        transform.position += (m_Velocity * BulletSpeed * Time.deltaTime) * TimeWorld.TimeScale;
+        transform.position += (m_Velocity * BulletSpeed * Time.deltaTime) * TimeWorld.Instance.TimeScale;
 
 
         m_TimeTillDestroy -= Time.deltaTime;

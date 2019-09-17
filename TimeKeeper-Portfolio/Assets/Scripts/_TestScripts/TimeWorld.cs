@@ -5,7 +5,7 @@ using UnityEngine;
 public class TimeWorld : MonoBehaviour
 {
     public static TimeWorld Instance;
-    public static float TimeScale = 1;
+   
 
     private List<TimeEntity> m_TimeEntitys;
 
@@ -16,7 +16,8 @@ public class TimeWorld : MonoBehaviour
         {
             Instance = this;
         }
-        m_Time = 0;
+        TimeScale = 1;
+      
     }
 
     public void RegisterEntity(TimeEntity t)
@@ -24,21 +25,27 @@ public class TimeWorld : MonoBehaviour
         m_TimeEntitys.Add(t);
     }
 
-
-    private void Update()
+    public void StopTime()
     {
-        m_Time += Time.deltaTime;
+        TimeScale = 0;
+    }
 
-        if (m_Time * TimeScale > 0.02f)
-        {
-            m_Time = 0;
-            foreach(TimeEntity t in m_TimeEntitys)
-            {
-                t.TimeEvent.Invoke();
-            }
-        }
+    public void HalfTime()
+    {
+        TimeScale = 0.5f;
+
+    }
+
+    public void FullTime()
+    {
+        TimeScale = 1;
     }
 
 
-    float m_Time;
+    public float TimeScale { get; private set; }
+
+  
+
+
+    
 }

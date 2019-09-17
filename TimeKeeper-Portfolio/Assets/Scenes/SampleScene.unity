@@ -1942,7 +1942,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1242789451}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.43, y: 0.2985, z: 0.327}
+  m_LocalPosition: {x: 0.43, y: 0.3, z: 0.327}
   m_LocalScale: {x: 0.9830643, y: 1, z: 1.0474198}
   m_Children:
   - {fileID: 381593479}
@@ -1973,7 +1973,7 @@ MonoBehaviour:
   FireDistance: 55
   FireRate: 1
   MaxAmmoCount: 15
-  ADSLocation: {x: 0, y: 0.2985, z: 0.602}
+  ADSLocation: {x: 0, y: 0.2985, z: 0.4}
   ADSSpeed: 15
 --- !u!1 &1486733391
 GameObject:
