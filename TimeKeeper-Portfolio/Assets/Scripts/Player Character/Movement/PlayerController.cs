@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
 
         m_PlayerEyes = GetComponentInChildren<PlayerLook>();
 
-
+        PlayerEyes = m_PlayerEyes;
     }
 
     void Update()
@@ -347,7 +347,7 @@ public class PlayerController : MonoBehaviour
     public Vector3 GroundVelocity { get; private set; }
     public Vector3 GroundAngularVelocity { get; private set; }
     public Vector3 GroundNormal { get; private set; }
-
+    public PlayerLook PlayerEyes { get; private set; }
 
 
 

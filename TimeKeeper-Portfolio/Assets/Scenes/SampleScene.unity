@@ -1583,8 +1583,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RotationSpeed: 5
   RotationSmoothing: 2
-  MinPitch: -45
-  MaxPitch: 45
+  MinPitch: -25
+  MaxPitch: 90
   XAxisName: Mouse X
   YAxisName: Mouse Y
   PlayerBody: {fileID: 1872047493}
@@ -1976,7 +1976,7 @@ MonoBehaviour:
   ADSLocation: {x: 0, y: 0.2985, z: 0.4}
   ADSSpeed: 15
   KickbackMinMax: {x: 0.15, y: 0.3}
-  RecoilMinMax: {x: 175, y: 200}
+  RecoilMinMax: {x: 0, y: 15}
 --- !u!1 &1486733391
 GameObject:
   m_ObjectHideFlags: 0

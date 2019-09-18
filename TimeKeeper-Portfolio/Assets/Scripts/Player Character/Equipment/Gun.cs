@@ -28,6 +28,9 @@ public class Gun : Weapon, IShootable
     public Vector2 RecoilMinMax;
 
 
+    
+
+
 
     void Start()
     {
@@ -49,8 +52,14 @@ public class Gun : Weapon, IShootable
 
     private void LateUpdate()
     {
+
+        // TODO: MAKE MORE SCALEABLE
         m_RecoilAngle = Mathf.SmoothDamp(m_RecoilAngle, 0, ref m_RecoilRotSmoothDampVelocity, 0.1f);
-        transform.localEulerAngles = transform.localEulerAngles + Vector3.left * m_RecoilAngle;
+        Vector3 transformation = transform.localEulerAngles + Vector3.left * m_RecoilAngle;
+        transformation.z = 0;
+        transform.localEulerAngles = transformation;
+
+
     }
 
     public virtual void Reload()
@@ -103,10 +112,17 @@ public class Gun : Weapon, IShootable
             direction = ray.direction;
         }
 
+        direction = direction + Vector3.up * m_RecoilAngle;
+
+        direction.Normalize();
+
+
+   
         
 
         rot = Quaternion.LookRotation(direction);
 
+     
         if (Parent)
         {
             GameObject bullet = Instantiate(BulletPrefab);
@@ -114,7 +130,7 @@ public class Gun : Weapon, IShootable
             CurrentAmmoCount--;
         }
 
-    
+         
 
         CalculateKickBack(KickbackMinMax.x, KickbackMinMax.y);
         m_RecoilAngle += 5;
@@ -155,7 +171,7 @@ public class Gun : Weapon, IShootable
     private int m_ShotCounter;
     private float m_RecoilAngle;
     private float m_Timer;
-
+   
    
 
 }
