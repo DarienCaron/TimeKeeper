@@ -22,12 +22,19 @@ public class Gun : Weapon, IShootable
     public float ADSSpeed = 15f;
 
 
+    [Header("Recoil")]
+    public Vector2 KickbackMinMax;
+
+    public Vector2 RecoilMinMax;
+
+
+
     void Start()
     {
         m_OriginalHipFirePos = transform.localPosition;
         Reload();
         Parent = GetComponentInParent<PlayerController>().gameObject;
-       
+        m_RecoilAngle = 0;
     }
 
     // Update is called once per frame
@@ -42,7 +49,8 @@ public class Gun : Weapon, IShootable
 
     private void LateUpdate()
     {
-        
+        m_RecoilAngle = Mathf.SmoothDamp(m_RecoilAngle, 0, ref m_RecoilRotSmoothDampVelocity, 0.1f);
+        transform.localEulerAngles = transform.localEulerAngles + Vector3.left * m_RecoilAngle;
     }
 
     public virtual void Reload()
@@ -106,12 +114,18 @@ public class Gun : Weapon, IShootable
             CurrentAmmoCount--;
         }
 
-        float random = Random.Range(0.25f, 0.75f);
-        Kick = random;
+    
 
-        transform.localPosition -= Vector3.forward * Kick;
-        transform.localEulerAngles = transform.localEulerAngles + Vector3.right * Kick * 2;
+        CalculateKickBack(KickbackMinMax.x, KickbackMinMax.y);
+        m_RecoilAngle += 5;
+        m_RecoilAngle = Mathf.Clamp(m_RecoilAngle, RecoilMinMax.x, RecoilMinMax.y); 
+    }
 
+    protected void CalculateKickBack(float min, float max)
+    {
+        float random = Random.Range(min, max);    
+
+        transform.localPosition -= Vector3.forward * random;
     }
 
     public void Aim()
@@ -134,12 +148,14 @@ public class Gun : Weapon, IShootable
         return direction;
     }
 
+    private float m_RecoilRotSmoothDampVelocity;
+
     protected bool m_IsReloading;
     private Vector3 m_OriginalHipFirePos;
     private int m_ShotCounter;
-
+    private float m_RecoilAngle;
     private float m_Timer;
 
-    private float Kick;
+   
 
 }
