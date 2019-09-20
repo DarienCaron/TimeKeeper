@@ -28,15 +28,18 @@ public class Gun : Weapon, IShootable
     public Vector2 RecoilMinMax;
 
 
-    
 
 
+    private void Awake()
+    {
+        Parent = GetComponentInParent<GunController>().gameObject;
+    }
 
     void Start()
     {
         m_OriginalHipFirePos = transform.localPosition;
         Reload();
-        Parent = GetComponentInParent<PlayerController>().gameObject;
+       
         m_RecoilAngle = 0;
     }
 
@@ -58,7 +61,7 @@ public class Gun : Weapon, IShootable
         Vector3 transformation = transform.localEulerAngles + Vector3.left * m_RecoilAngle;
         transformation.z = 0;
         transform.localEulerAngles = transformation;
-
+      
 
     }
 

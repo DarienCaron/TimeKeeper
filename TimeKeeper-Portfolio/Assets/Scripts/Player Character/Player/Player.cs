@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         m_CurrentItemIndex = 0;
+        GunController = GetComponent<GunController>();
       
     }
     // Start is called before the first frame update
@@ -22,7 +23,7 @@ public class Player : MonoBehaviour
     {
 
 
-        EquippedItem = ItemsToUse[m_CurrentItemIndex];
+       
         
 
     }
@@ -32,43 +33,27 @@ public class Player : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            EquippedItem.Use();
+            GunController.OnTriggerHold();
         }
+
 
         if(Input.GetKeyDown(KeyCode.R))
         {
-            if(EquippedItem.EquipmentType == EquipmentType.Gun)
-            {
-
-                Gun g = (Gun)EquippedItem;
-                g.Reload();
-                
-            }
+            GunController.OnReload();
         }
-
-        if (EquippedItem.EquipmentType == EquipmentType.Gun)
+   
+        if(Input.GetMouseButtonDown(0))
         {
-            Gun g = (Gun)EquippedItem;
-
-            if (Input.GetKey(KeyCode.Mouse1))
-            {
-              
-                g.Aim();
-
-           
-
-            }
-
-            else
-            {
-                g.HipFire();
-               
-            }
+            GunController.ChangeAim(AimState.Aiming);
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            GunController.ChangeAim(AimState.Hipfire);
         }
 
 
         // TEMP CODE
-        if(Input.GetKey(KeyCode.J))
+        if (Input.GetKey(KeyCode.J))
         {
             TimeWorld.Instance.HalfTime();
         }
@@ -102,16 +87,10 @@ public class Player : MonoBehaviour
         //}
     }
 
-    void ChangeEquipment(int itemIndex)
-    {
-        if (itemIndex <= ItemsToUse.Count)
-        {
-            EquippedItem = ItemsToUse[itemIndex];
-        }
-    }
+  
 
 
-    public Equipment EquippedItem { get; private set; }
+    public GunController GunController { get; private set; }
 
     private int m_CurrentItemIndex;
     private Vector3 m_OriginalHandPos;

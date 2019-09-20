@@ -30,6 +30,12 @@ public class PlayerLook : MonoBehaviour
     private void FixedUpdate()
     {
         UpdateRotation();
+        m_LastRotation = transform.localEulerAngles;
+
+    }
+    private void LateUpdate()
+    {
+        transform.localEulerAngles = Vector3.Lerp(transform.localEulerAngles, m_LastRotation, Time.deltaTime);
     }
 
     private void UpdateRotation()
@@ -95,6 +101,22 @@ public class PlayerLook : MonoBehaviour
 
     }
 
+
+    public void RotateLocal(Vector3 dir, float amount)
+    {
+
+        Vector3 transformation = transform.localEulerAngles + dir * amount;
+
+        transformation.z = 0;
+
+        transform.localEulerAngles = transformation;
+        
+
+
+
+
+    }
+
    
 
     
@@ -103,5 +125,6 @@ public class PlayerLook : MonoBehaviour
 
 
     private float XAxisClamp;
+    private Vector3 m_LastRotation;
 
 }
